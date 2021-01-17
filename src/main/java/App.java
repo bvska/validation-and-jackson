@@ -6,6 +6,7 @@ import entity.jackson.Category;
 import entity.jackson.Color;
 
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class App {
         String jsonCats = null;
 
         try {
+            // mapperToJson.writeValue(new File("cat.json"), murzik);
             // объект к строке
             jsonCat = mapperToJson.writeValueAsString(murzik);
             System.out.println("---JSON CAT---");
@@ -65,7 +67,6 @@ public class App {
             jsonCats = mapperToJson.writeValueAsString(Arrays.asList(murzik, murzik, murzik));
             System.out.println("---JSON CATS---");
             System.out.println(jsonCats);
-
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -79,14 +80,21 @@ public class App {
         ObjectMapper mapperFromJson = new ObjectMapper();
 
         try {
+            // чтение из файла
+            // System.out.println(
+              // mapperFromJson.readValue(new File("cat.json"), Cat.class));
+
             catFromJson = mapperFromJson.readValue(jsonCat, Cat.class);
             catsArrFromJson = mapperFromJson.readValue(jsonCats, Cat[].class);
             // для коллекций:
             // вариант 1
-            CollectionType type = mapperFromJson.getTypeFactory().constructCollectionType(ArrayList.class, Cat.class);
-            // вариант 2
-            // catsListFromJson = mapperFromJson.readValue(jsonCats, new TypeReference<ArrayList<Cat>>() {});
+            CollectionType type = mapperFromJson.getTypeFactory()
+                    .constructCollectionType(ArrayList.class, Cat.class);
             catsListFromJson = mapperFromJson.readValue(jsonCats, type);
+
+            // вариант 2
+            // catsListFromJson = mapperFromJson.readValue(jsonCats,
+            // new TypeReference<ArrayList<Cat>>() {});
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();

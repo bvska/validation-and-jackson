@@ -1,13 +1,17 @@
 package entity.jackson;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.ArrayList;
 import java.util.List;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Category extends Identify {
     private String name;
     private String description;
 
+    // @JsonManagedReference
     private List<Cat> cats = new ArrayList<>();
 
     public String getName() {
